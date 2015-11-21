@@ -2,6 +2,7 @@ package controllers;
 
 import static play.libs.Json.toJson;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,9 +20,6 @@ import models.Recorrido;
 import models.Ruta;
 import models.User;
 import models.UsuarioXRecorrido;
-import notificaciones.CatalogoNotificaciones;
-import notificaciones.ICatalogoNotificaciones;
-import notificaciones.ICatalogoNotificaciones.EstadoParticipacion;
 import play.data.Form;
 import play.data.validation.Constraints.Required;
 import play.mvc.Controller;
@@ -116,9 +114,6 @@ public class ControllerRecorrido extends Controller{
 
 			insertarRecorrido(recorrido, ruta, listUsuarioRecorrido);
 			
-			//Notificacion Invitacion
-			notificarInvitacionARecorrdo(recorrido, ruta, listUsuarioRecorrido);
-			
 			flash("success", "Se ha creado correctamente el recorrido.");
 			return templateCrear( Form.form(FormularioRecorrido.class), tipoRecorrido, diaFrecuente, horaSalida, lstAmigos);
 			}
@@ -130,7 +125,7 @@ private static Result templateCrear(Form<FormularioRecorrido> form, List<String>
 	String mensaje = "Acabo de crear un recorrido quieres unirte";
 	String url = "http://i844.photobucket.com/albums/ab7/MARTIN3280/recreacion_zpsjiekvk3i.jpg";
 	//return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
-		return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null,views.html.publicadorfacebook.render("publicador", mensaje, url)));
+		return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
 	}
 
 public static Result getFormRecorridos()
@@ -272,9 +267,7 @@ public static Result getFormRecorridos()
 		{
 			usuarioRecorridoDao.eliminarUsuarioXRecorrido(lstUsuarioRecorrido.get(0));
 			mensaje = "<div style='padding: 5px 5px 5px 5px; background-color:#c4ead0'>Se ha retirado del recorrido satisfactoriamente</div>";
-		
-			//Notificacion union
-			notificarCambioParticipacionRecorrido (recorrido, false);
+			
 		}
 		else
 		{
@@ -286,8 +279,6 @@ public static Result getFormRecorridos()
 			usuarioRecorridoDao.agregarUsuarioXRecorrido(usuarioRecorrido);
 			mensaje="<div style='padding: 5px 5px 5px 5px; background-color:#c4ead0'>Se ha unido al recorrido satisfactoriamente</div>";
 			
-			//Notificacion retiro
-			notificarCambioParticipacionRecorrido(recorrido, true);
 		}
 
 		
@@ -316,108 +307,8 @@ public static Result getFormRecorridos()
 		public Long idRecorrido;
 	}
 	
-	/**
-	 * 
-	 * @param recorrido
-	 * @param seUnio
-	 */
-	private static void notificarCambioParticipacionRecorrido(Recorrido recorrido, boolean seUnio)
-	{
-		EstadoParticipacion estadoParticipacion = seUnio?ICatalogoNotificaciones.EstadoParticipacion.UNIDO_A_RECORRIDO:ICatalogoNotificaciones.EstadoParticipacion.RETIRADO_DE_RECORRIDO;
-		User usuarioSession = Application.getLocalUser(session());	
-		
-		Ruta ruta = recorrido.getLstRuta().get(0);
-		
-		String emailUsuario = usuarioSession.email;	
-		String nombreUsuario= usuarioSession.name;
-		
-		String nombreRecorrido = recorrido.getNombre();
-		String lugarInicio = ruta.getLugarInicio();
-		String lugarFin = ruta.getLugarFin();
-		String descripcion = recorrido.getDescripcion();
-		
-		if (emailUsuario!=null && !emailUsuario.isEmpty())
-		{
-			//Recorrido Frecuente
-			if (recorrido.getTipo()==0)
-			{
-				String horaFrecuente = recorrido.getHoraFrecuente();
-				String diaFrecuente = recorrido.getDiaFrecuente();
-				
-				ICatalogoNotificaciones icn = CatalogoNotificaciones.getICatalogoInstance();
-				icn.notificacionCambioParticipacionRecorridoFrecuente(estadoParticipacion, emailUsuario, nombreUsuario,nombreRecorrido,lugarInicio,lugarFin, descripcion,horaFrecuente,diaFrecuente);
 	
-			} 
-			//Recorrido Recreacion
-			else if (recorrido.getTipo()==1)
-			{
-				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
 	
-				String horaRecreacion = recorrido.getHoraFrecuente();
-				String fechaInicio =  sdf.format(ruta.getFechaInicioRuta());
-				String fechaFin = sdf.format(ruta.getFechaFinRuta());
-							
-				ICatalogoNotificaciones icn = CatalogoNotificaciones.getICatalogoInstance();
-				icn.notificacionCambioParticipacionRecorridoRecreacion(estadoParticipacion, emailUsuario, nombreUsuario,nombreRecorrido,lugarInicio,lugarFin, descripcion,horaRecreacion,fechaInicio, fechaFin);
-			}		
-			
-		}
-	}
-	
-	/**
-	 * 
-	 * @param recorrido
-	 * @param ruta
-	 * @param listUsuarioRecorrido
-	 */
-	private static void notificarInvitacionARecorrdo(Recorrido recorrido, Ruta ruta, List<UsuarioXRecorrido> listUsuarioRecorrido)
-	{
-		User usuarioSession = Application.getLocalUser(session());
-		String usuarioInvita = usuarioSession.name;
-		
-		String nombreRecorrido = recorrido.getNombre();
-		String lugarInicio = ruta.getLugarInicio();
-		String lugarFin = ruta.getLugarFin();
-		String descripcion = recorrido.getDescripcion();
-		
-		List<String> emailsInvitados = new ArrayList<String>();
-		
-		for (UsuarioXRecorrido usuarioRecorrido : listUsuarioRecorrido) {
-			String emailPosible = usuarioRecorrido.getUsuario().email ;
-			if (emailPosible!=null && !emailPosible.isEmpty())
-			{
-				emailsInvitados.add(emailPosible);
-			}
-		}
-		
-		//Si alguno de los invitados tiene email
-		if (emailsInvitados.size()>0)
-		{
-			//Recorrido Frecuente
-			if (recorrido.getTipo()==0)
-			{
-				String horaFrecuente = recorrido.getHoraFrecuente();
-				String diaFrecuente = recorrido.getDiaFrecuente();
-				
-				ICatalogoNotificaciones icn = CatalogoNotificaciones.getICatalogoInstance();
-				icn.notificacionInvitacionRecorridoFrecuente(usuarioInvita,nombreRecorrido,lugarInicio,lugarFin, descripcion,horaFrecuente,diaFrecuente,emailsInvitados);
-	
-			} 
-			//Recorrido Recreacion
-			else if (recorrido.getTipo()==1)
-			{
-				SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
-	
-				String horaRecreacion = recorrido.getHoraFrecuente();
-				String fechaInicio =  sdf.format(ruta.getFechaInicioRuta());
-				String fechaFin = sdf.format(ruta.getFechaFinRuta());
-							
-				ICatalogoNotificaciones icn = CatalogoNotificaciones.getICatalogoInstance();
-				icn.notificacionInvitacionRecorridoRecreacion(usuarioInvita,nombreRecorrido,lugarInicio,lugarFin, descripcion,horaRecreacion,fechaInicio, fechaFin,emailsInvitados);
-			}		
-		}
-		
-	}
 	
 	
 	

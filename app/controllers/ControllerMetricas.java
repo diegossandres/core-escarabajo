@@ -341,7 +341,7 @@ public class ControllerMetricas extends Controller{
 
 		//return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , null));
 		//return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , views.html.publicadorfacebook.render("publicador", mensaje, url)));
-		return ok(views.html.recorridosConsulta.render(form, lstRecorridos, views.html.publicadortwitter.render("publicador", mensaje) , views.html.publicadorfacebook.render("publicador", mensaje, url)));
+		return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , null));
 	}
 	
 	

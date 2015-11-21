@@ -106,26 +106,7 @@ create table sitio (
   latitud                   float not null,
   longitud                  float not null,
   nombre                    varchar(255) not null,
-  descripcion               varchar(255),
-  hora_inicio_atencion      varchar(255),
-  hora_fin_atencion         varchar(255),
-  para_alquiler             boolean,
-  para_entrega              boolean,
-  sitio_de_alquiler_id      bigint,
   constraint pk_sitio primary key (id))
-;
-
-create table sitio_de_alquiler (
-  id                        bigserial not null,
-  nombre                    varchar(255) not null,
-  indicativo_telefono_fijo  varchar(255),
-  telefono_fijo             varchar(255),
-  email                     varchar(255),
-  celular                   varchar(255),
-  tarifa_x_h                varchar(255),
-  usuario_id                bigint,
-  constraint uq_sitio_de_alquiler_nombre unique (nombre),
-  constraint pk_sitio_de_alquiler primary key (id))
 ;
 
 create table token_action (
@@ -200,16 +181,12 @@ alter table retos_usuario add constraint fk_retos_usuario_reto_9 foreign key (id
 create index ix_retos_usuario_reto_9 on retos_usuario (id_reto);
 alter table ruta add constraint fk_ruta_recorrido_10 foreign key (recorrido_id_recorrido) references recorrido (id_recorrido);
 create index ix_ruta_recorrido_10 on ruta (recorrido_id_recorrido);
-alter table sitio add constraint fk_sitio_sitioDeAlquiler_11 foreign key (sitio_de_alquiler_id) references sitio_de_alquiler (id);
-create index ix_sitio_sitioDeAlquiler_11 on sitio (sitio_de_alquiler_id);
-alter table sitio_de_alquiler add constraint fk_sitio_de_alquiler_usuario_12 foreign key (usuario_id) references users (id);
-create index ix_sitio_de_alquiler_usuario_12 on sitio_de_alquiler (usuario_id);
-alter table token_action add constraint fk_token_action_targetUser_13 foreign key (target_user_id) references users (id);
-create index ix_token_action_targetUser_13 on token_action (target_user_id);
-alter table usuario_x_recorrido add constraint fk_usuario_x_recorrido_usuari_14 foreign key (usuario_id) references users (id);
-create index ix_usuario_x_recorrido_usuari_14 on usuario_x_recorrido (usuario_id);
-alter table usuario_x_recorrido add constraint fk_usuario_x_recorrido_recorr_15 foreign key (recorrido_id_recorrido) references recorrido (id_recorrido);
-create index ix_usuario_x_recorrido_recorr_15 on usuario_x_recorrido (recorrido_id_recorrido);
+alter table token_action add constraint fk_token_action_targetUser_11 foreign key (target_user_id) references users (id);
+create index ix_token_action_targetUser_11 on token_action (target_user_id);
+alter table usuario_x_recorrido add constraint fk_usuario_x_recorrido_usuari_12 foreign key (usuario_id) references users (id);
+create index ix_usuario_x_recorrido_usuari_12 on usuario_x_recorrido (usuario_id);
+alter table usuario_x_recorrido add constraint fk_usuario_x_recorrido_recorr_13 foreign key (recorrido_id_recorrido) references recorrido (id_recorrido);
+create index ix_usuario_x_recorrido_recorr_13 on usuario_x_recorrido (recorrido_id_recorrido);
 
 
 
@@ -244,8 +221,6 @@ drop table if exists ruta cascade;
 drop table if exists security_role cascade;
 
 drop table if exists sitio cascade;
-
-drop table if exists sitio_de_alquiler cascade;
 
 drop table if exists token_action cascade;
 

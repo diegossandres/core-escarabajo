@@ -1,28 +1,20 @@
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import models.LinkedAccount;
-import models.SecurityRole;
-import models.User;
-import models.UserPermission;
-
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.Expression;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
 import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
-import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 
-import controllers.ControllerSitiosDeAlquiler;
 import controllers.routes;
-
+import models.LinkedAccount;
+import models.SecurityRole;
+import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.mvc.Call;

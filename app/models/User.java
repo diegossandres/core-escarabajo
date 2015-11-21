@@ -1,6 +1,7 @@
 package models;
 
 import be.objectify.deadbolt.core.models.Permission;
+
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 
@@ -68,8 +69,7 @@ public class User extends AppModel implements Subject {
 	@ManyToMany
 	public List<UserPermission> permissions;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-	private List<SitioDeAlquiler> sitiosDeAlquiler;	
+	
 
 	/*
 	public static final AppModel.Finder<Long, User> find = new AppModel.Finder<Long, User>(
@@ -282,13 +282,7 @@ public class User extends AppModel implements Subject {
 		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
 
-	public List<SitioDeAlquiler> getSitiosDeAlquiler() {
-		return sitiosDeAlquiler;
-	}
-
-	public void setSitiosDeAlquiler(List<SitioDeAlquiler> sitiosDeAlquiler) {
-		this.sitiosDeAlquiler = sitiosDeAlquiler;
-	}
+	
 	
 	@OneToMany(mappedBy = "usuario")
 	private List<UsuarioXRecorrido> usuarioXRecorrido;
