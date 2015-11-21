@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <head>
+      <title></title>
+      <!-- Latest compiled and minified Jquery -->
+	  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	  <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+      <!-- Latest compiled and minified JavaScript -->
+      
+	  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=es"></script>
+      <script type="text/javascript" src="Escarabajo_Recorridos.js"></script>
+      <script type="text/javascript" src="Escarabajo_Clima.js"></script>
+   </head>
+   <body>
+		<form class="form-vertical" role="form">
+			<div class="form-group">
+			<label for="txtSource">Origen:</label>
+			<input type="text" class="form-control" id="txtSource" value="Kennedy, Bogota, Colombia"  />
+			</div>
+			<div class="form-group">
+			<label for="txtDestination">Destino:</label>
+			<input type="text" class="form-control" id="txtDestination" value="Usaquen, Bogota, Colombia"  />
+			</div>
+			<div class="form-group">
+				<input type="button" class="btn btn-default" value="Calcular Ruta" onclick="GetRoute()" />
+				<input type="button" class="btn btn-default" value="Iniciar Recorrido" onclick="StartRoute()" />
+				<input type="button" class="btn btn-default" value="Finalizar Recorrido" onclick="EndRoute()" />
+			</div>
+			<div id="dvDistance">		
+			</div>
+			<div id="dvWeatherSource"/>	
+			</div>
+			<div id="dvWeatherDestination">
+			</div>
+			<div class="container-fluid" id="main">
+				<div class="row">
+					<div id="dvMap" style="width: 500px; height: 500px">
+					</div>
+				</div>
+				<div class="row">
+					<div id="dvPanel" style="width: 500px; height: 500px">
+					</div>
+				</div>
+			</div>	
+		</form>
+   </body>
+</html>

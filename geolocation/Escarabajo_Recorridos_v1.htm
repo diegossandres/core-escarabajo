@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=es"></script>
+    <script type="text/javascript" src="Escarabajo_Recorridos.js"></script>
+	<script type="text/javascript" src="Escarabajo_Clima.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+		<table class="table">
+			<tr>
+				<td colspan="4">
+					Origen:
+					<input type="text" id="txtSource" class="form-control" value="Kennedy, Bogota, Colombia" />
+					Destino:
+					<input type="text" id="txtDestination" class="form-control" value="Usaquen, Bogota, Colombia" />
+					<br />
+					<input type="button" class="btn btn-primary" value="Calcular Ruta" onclick="GetRoute()" />
+					<input type="button" class="btn btn-default" value="Iniciar Recorrido" onclick="StartRoute()" />
+					<input type="button" class="btn btn-danger" value="Finalizar Recorrido" onclick="EndRoute()" />
+					<hr />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<div id="dvDistance">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1">
+					<div id="dvWeatherSource">
+					</div>
+				</td>
+				<td colspan="1">
+					<div id="dvWeatherDestination">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="dvMap" >
+					</div>
+				</td>
+				<td colspan="2">
+					<div id="dvPanel" >
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+    <br />
+</body>
+
+</html>

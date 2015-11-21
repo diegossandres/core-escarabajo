@@ -1,0 +1,33 @@
+INSERT INTO users_security_role(
+users_id, security_role_id)
+    VALUES (2, 2);
+	
+INSERT INTO metrica(
+		id_metrica, nombre_metrica, unidad_medida)
+VALUES (1, 'Velocidad Media', 'Km/h');
+
+INSERT INTO retos(
+            id, nombre, fecha_inicio, fecha_fin, metrica_id_metrica, funcion, 
+            operador, valor_condicion, puntaje, estado)
+    VALUES (1, 'reto nombre', '2015-10-17 10:37:52.018', '2015-10-17 10:37:52.018', 1, 'MAX', 
+            '>', 30, 100, 'activo');
+			
+			
+INSERT INTO retos_usuario(
+            id_usuario, id_reto, fecha, estado)
+    VALUES (2, 1, '2015-10-17 10:37:52.018', 'valido');
+	
+	
+	INSERT INTO recompensa(
+            id, puntaje_requerido, recompensa, telefono_contacto, celular_contacto, 
+            fecha_limite, estado)
+    VALUES (1,20,'Manubrio aluminio','7564512','3001524578','2015-10-24 00:00:00','activo');
+	
+	
+INSERT INTO recompensa_usuario(
+            id_recompensa, id_usuario, fecha)
+    VALUES (1, 2, '2015-10-24 00:00:00');
+	
+UPDATE users
+   SET puntaje_retos=100
+ WHERE id=2;
