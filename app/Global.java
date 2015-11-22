@@ -12,7 +12,9 @@ import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
 
 import controllers.routes;
+import database.MetricaDAO;
 import models.LinkedAccount;
+import models.Metrica;
 import models.SecurityRole;
 import models.User;
 import play.Application;
@@ -96,6 +98,112 @@ public class Global extends GlobalSettings {
 		{
 			crearAdmin();
 		}
+		
+		MetricaDAO metricaDAO = new MetricaDAO();
+		
+		//Distancia Real
+    	if(metricaDAO.consultarMetricaPorNombre("Distancia Real").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Distancia Real");
+    		m.setUnidadMedida("Km");
+    		metricaDAO.agregarMetrica(m);
+    	}
+		
+    	//Tiempo Real
+    	if(metricaDAO.consultarMetricaPorNombre("Tiempo Real").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Tiempo Real");
+    		m.setUnidadMedida("min");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Velocidad Media
+    	if(metricaDAO.consultarMetricaPorNombre("Velocidad Media").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Velocidad Media");
+    		m.setUnidadMedida("Km/h");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Distancia Estimada
+    	if(metricaDAO.consultarMetricaPorNombre("Distancia Estimada").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Distancia Estimada");
+    		m.setUnidadMedida("Km");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Tiempo Estimado
+    	if(metricaDAO.consultarMetricaPorNombre("Tiempo Estimado").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Tiempo Estimado");
+    		m.setUnidadMedida("min");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Temperatura Origen
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Temperatura Origen").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Temperatura Origen");
+    		m.setUnidadMedida("°C");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Temperatura Destino
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Temperatura Destino").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Temperatura Destino");
+    		m.setUnidadMedida("°C");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Humedad Origen
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Humedad Origen").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Humedad Origen");
+    		m.setUnidadMedida("%");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Humedad Destino
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Humedad Destino").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Humedad Destino");
+    		m.setUnidadMedida("%");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Nubosidad Origen
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Nubosidad Origen").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Nubosidad Origen");
+    		m.setUnidadMedida("%");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Humedad Destino
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Nubosidad Destino").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Nubosidad Destino");
+    		m.setUnidadMedida("%");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Viento Origen
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Viento Origen").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Viento Origen");
+    		m.setUnidadMedida("m/s");
+    		metricaDAO.agregarMetrica(m);
+    	}
+    	
+    	//Clima Humedad Destino
+    	if(metricaDAO.consultarMetricaPorNombre("Clima Viento Destino").size() <= 0){
+    		Metrica m = new Metrica();
+    		m.setNombreMetrica("Clima Viento Destino");
+    		m.setUnidadMedida("m/s");
+    		metricaDAO.agregarMetrica(m);
+    	}
 		
 	}
 	
