@@ -16,6 +16,12 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.twirl.api.Html;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 public class ControllerMetricas extends Controller{
 	
@@ -332,31 +338,60 @@ public class ControllerMetricas extends Controller{
 		String mensaje ="Acabo de recorrer  22 km  ";
 		System.out.println(mensaje);
 		String url = "http://i844.photobucket.com/albums/ab7/MARTIN3280/af0821f4-f925-4b64-87e8-3a0f6454b19d_zpsbgsh2pue.jpg";
-		return templateRecorridoWeb(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, mensaje, url);
+		//return templateRecorridoWeb(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, mensaje, url);
+
+		try {
+			   
+			/**Creamos un Objeto de tipo Properties*/
+			   Properties propiedades = new Properties();
+			    
+			   /**Cargamos el archivo desde la ruta especificada*/
+			   propiedades
+			     .load(new FileInputStream(
+			       "conf/publicaciones.properties"));
+			 
+			   /**Obtenemos los parametros definidos en el archivo*/
+			   String value = propiedades.getProperty("value");
+			   int valor =  Integer.parseInt(value);
+			   
+			   
+			   if(valor == 1)
+				{
+					return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, null, null));
+				}
+				else if(valor == 2)
+				{
+					return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, views.html.publicadortwitter.render("publicador", mensaje), null));
+				}
+			   
+				else if(valor == 3)
+				{
+					return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, null, views.html.publicadorfacebook.render("publicador", mensaje, url)));
+				}
+				else if(valor == 4)
+				{
+					return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, views.html.publicadortwitter.render("publicador", mensaje), views.html.publicadorfacebook.render("publicador", mensaje, url)));
+				}
+				else
+				{
+					return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, null, null));
+				}
+			   
+			   
+			    
+			  } catch (FileNotFoundException e) {
+			   System.out.println("Error, El archivo no exite");
+			  } catch (IOException e) {
+			   System.out.println("Error, No se puede leer el archivo");
+			  }
+
+	
+		return ok(views.html.recorridosConsulta.render(Form.form(FormularioConsultaRecorrido.class), lstRecorridos, null, null));
+	
+	
+	
 	}
 
 
-	private static Result templateRecorridoWeb(Form<FormularioConsultaRecorrido> form, List<Recorrido> lstRecorridos,
-			String mensaje, String url) {
-
-		//return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , null));
-		//return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , views.html.publicadorfacebook.render("publicador", mensaje, url)));
-		return ok(views.html.recorridosConsulta.render(form, lstRecorridos, null , null));
-	}
 	
-	
-
-	
-	
-		
-	//return templateRecorridoWeb(recorrido, mensaje, url);
-	/*
-	private static Result templateRecorridoWeb(Recorrido recorrido, String mensaje, String url) {
-		
-		System.out.println(mensaje);
-		//return ok(views.html.ejecucionRecorrido.render(recorrido,null, null));
-		//return ok(views.html.ejecucionRecorrido.render(recorrido,views.html.publicadorfacebook.render("publicador"), null));
-		return ok(views.html.ejecucionRecorrido.render(recorrido,null , views.html.publicadorfacebook.render("publicador", mensaje, url)));
-*/		 
-		
-	}
+}

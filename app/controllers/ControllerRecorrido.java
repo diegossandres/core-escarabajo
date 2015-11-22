@@ -2,17 +2,21 @@ package controllers;
 
 import static play.libs.Json.toJson;
 
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import controllers.ControllerRecorrido.FormularioConsultaRecorrido;
 import database.RecorridoDAO;
 import database.UserDAO;
 import database.UsuariosXRecorridoDAO;
@@ -125,13 +129,58 @@ private static Result templateCrear(Form<FormularioRecorrido> form, List<String>
 	String mensaje = "Acabo de crear un recorrido quieres unirte";
 	String url = "http://i844.photobucket.com/albums/ab7/MARTIN3280/recreacion_zpsjiekvk3i.jpg";
 	//return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
-		return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
+		
+	try {
+		   
+		/**Creamos un Objeto de tipo Properties*/
+		   Properties propiedades = new Properties();
+		    
+		   /**Cargamos el archivo desde la ruta especificada*/
+		   propiedades
+		     .load(new FileInputStream(
+		       "conf/publicaciones.properties"));
+		 
+		   /**Obtenemos los parametros definidos en el archivo*/
+		   String value = propiedades.getProperty("value");
+		   int valor =  Integer.parseInt(value);
+		   
+		   
+		   if(valor == 1)
+			{
+				return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
+			}
+			else if(valor == 2)
+			{
+				return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, views.html.publicadortwitter.render("publicador", mensaje), null));
+			}
+		   
+			else if(valor == 3)
+			{
+				return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, views.html.publicadorfacebook.render("publicador", mensaje, url)));
+			}
+			else if(valor == 4)
+			{
+				return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, views.html.publicadortwitter.render("publicador", mensaje), views.html.publicadorfacebook.render("publicador", mensaje, url)));
+			}
+			else
+			{
+				return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
+			}
+	    
+		  } catch (FileNotFoundException e) {
+		   System.out.println("Error, El archivo no exite");
+		  } catch (IOException e) {
+		   System.out.println("Error, No se puede leer el archivo");
+		  }
+
+	return ok(views.html.recorridos.render(form, tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
 	}
 
 public static Result getFormRecorridos()
 {
 	cargarListas();
 	response().setContentType("text/html; charset=utf-8");
+	
 	return ok(views.html.recorridos.render(Form.form(FormularioRecorrido.class), tipoRecorrido, diaFrecuente, horaSalida, lstAmigos, null, null));
 }
 
