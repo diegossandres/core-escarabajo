@@ -32,4 +32,4 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 resolvers += "Typesafe snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
 
 // Use the Play sbt plugin for Play projects
-addSbtPlugin("com.typesafe.play" % "sbt-fork-run-plugin" % "2.4.0")
+//addSbtPlugin("com.typesafe.play" % "sbt-fork-run-plugin" % "2.4.0")
