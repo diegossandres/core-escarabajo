@@ -320,7 +320,7 @@ public class Global extends GlobalSettings {
 			conn.close();
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			System.out.println("tablefunc ya existe!!");
 		}
 		
 	}
